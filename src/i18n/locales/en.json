@@ -36,5 +36,15 @@
   "footer": {
     "description": "This calculator helps you understand the real cost of overtime work and encourages healthy work-life balance.",
     "disclaimer": "The results are for educational purposes only."
+  },
+  "validation": {
+    "pleaseComplete": "Please complete all required fields",
+    "enterValidValues": "Please enter valid values",
+    "salaryRequired": "Monthly salary is required",
+    "daysRequired": "Work days per week is required",
+    "hoursRequired": "Hours per day is required",
+    "salaryPositive": "Salary must be a positive number",
+    "daysRange": "Work days must be between 1 and 7",
+    "hoursRange": "Hours must be between 1 and 24"
   }
 }

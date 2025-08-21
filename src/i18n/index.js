@@ -7,11 +7,11 @@ import zhTranslations from './locales/zh.json';
 
 const resources = {
   en: {
-    translation: enTranslations
+    translation: enTranslations,
   },
   zh: {
-    translation: zhTranslations
-  }
+    translation: zhTranslations,
+  },
 };
 
 i18n
@@ -28,7 +28,7 @@ i18n
     detection: {
       order: ['localStorage', 'navigator'],
       caches: ['localStorage'],
-    }
+    },
   });
 
 export default i18n;

@@ -1,75 +1,81 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { 
+  useWageCalculation, 
+  useValueDifference, 
+  useFormValidation,
+  WORK_CONSTANTS,
+} from '../hooks/useWageCalculation';
+import { 
+  validateMonthlySalary, 
+  validateWorkDaysPerWeek, 
+  validateHoursPerDay,
+  formatCurrency,
+} from '../utils/validation';
 
 const WageCalculator = () => {
   const { t } = useTranslation();
+  
+  // 表单状态
   const [formData, setFormData] = useState({
     monthlySalary: 10000,
     workDaysPerWeek: 5,
-    hoursPerDay: 8
+    hoursPerDay: 8,
   });
-  const [results, setResults] = useState(null);
+  
+  // 错误状态
+  const [errors, setErrors] = useState({});
+  
+  // 使用自定义Hook
+  const results = useWageCalculation(formData);
+  const valueDifference = useValueDifference(results);
+  const isFormValid = useFormValidation(formData, errors);
 
-  const calculateWages = () => {
-    const { monthlySalary, workDaysPerWeek, hoursPerDay } = formData;
-    
-    // 标准工作制 (8小时/天，5天/周)
-    const standardWeeklyHours = 8 * 5;
-    const standardMonthlyHours = standardWeeklyHours * 4.33; // 平均每月4.33周
-    const standardHourlyWage = monthlySalary / standardMonthlyHours;
-    
-    // 996工作制 (12小时/天，6天/周)
-    const nineNineSixWeeklyHours = 12 * 6;
-    const nineNineSixMonthlyHours = nineNineSixWeeklyHours * 4.33;
-    const nineNineSixHourlyWage = monthlySalary / nineNineSixMonthlyHours;
-    
-    // 自定义工作制
-    const customWeeklyHours = hoursPerDay * workDaysPerWeek;
-    const customMonthlyHours = customWeeklyHours * 4.33;
-    const customHourlyWage = monthlySalary / customMonthlyHours;
-    
-    setResults({
-      standard: {
-        hourly: standardHourlyWage,
-        daily: standardHourlyWage * 8,
-        weekly: standardHourlyWage * standardWeeklyHours,
-        monthly: monthlySalary
-      },
-      nineNineSix: {
-        hourly: nineNineSixHourlyWage,
-        daily: nineNineSixHourlyWage * 12,
-        weekly: nineNineSixHourlyWage * nineNineSixWeeklyHours,
-        monthly: monthlySalary
-      },
-      custom: {
-        hourly: customHourlyWage,
-        daily: customHourlyWage * hoursPerDay,
-        weekly: customHourlyWage * customWeeklyHours,
-        monthly: monthlySalary
-      }
-    });
-  };
-
-  useEffect(() => {
-    calculateWages();
-  }, [formData]);
-
-  const handleInputChange = (e) => {
+  // 使用 useCallback 优化性能
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
+    
+    // 清除该字段的错误
+    setErrors(prev => ({
+      ...prev,
+      [name]: null,
+    }));
+    
+    // 验证输入值
+    let error = null;
+    switch (name) {
+    case 'monthlySalary':
+      if (!validateMonthlySalary(value)) {
+        error = t('validation.salaryRequired');
+      }
+      break;
+    case 'workDaysPerWeek':
+      if (!validateWorkDaysPerWeek(value)) {
+        error = t('validation.daysRequired');
+      }
+      break;
+    case 'hoursPerDay':
+      if (!validateHoursPerDay(value)) {
+        error = t('validation.hoursRequired');
+      }
+      break;
+    default:
+      break;
+    }
+    
+    if (error) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: error,
+      }));
+      return;
+    }
+    
     setFormData(prev => ({
       ...prev,
-      [name]: parseFloat(value) || 0
+      [name]: parseFloat(value),
     }));
-  };
-
-  const formatCurrency = (amount) => {
-    return `¥${amount.toFixed(2)}`;
-  };
-
-  const getValueDifference = () => {
-    if (!results) return 0;
-    return ((results.standard.hourly - results.nineNineSix.hourly) / results.standard.hourly * 100).toFixed(1);
-  };
+  }, [t]);
 
   return (
     <div className="wage-calculator">
@@ -90,7 +96,11 @@ const WageCalculator = () => {
             onChange={handleInputChange}
             min="0"
             step="100"
+            className={errors.monthlySalary ? 'error' : ''}
           />
+          {errors.monthlySalary && (
+            <span className="error-message">{errors.monthlySalary}</span>
+          )}
         </div>
         
         <div className="d-flex gap-3">
@@ -102,9 +112,13 @@ const WageCalculator = () => {
               name="workDaysPerWeek"
               value={formData.workDaysPerWeek}
               onChange={handleInputChange}
-              min="1"
-              max="7"
+              min={WORK_CONSTANTS.MIN_WORK_DAYS_PER_WEEK}
+              max={WORK_CONSTANTS.MAX_WORK_DAYS_PER_WEEK}
+              className={errors.workDaysPerWeek ? 'error' : ''}
             />
+            {errors.workDaysPerWeek && (
+              <span className="error-message">{errors.workDaysPerWeek}</span>
+            )}
           </div>
           
           <div className="input-group flex-1">
@@ -115,15 +129,19 @@ const WageCalculator = () => {
               name="hoursPerDay"
               value={formData.hoursPerDay}
               onChange={handleInputChange}
-              min="1"
-              max="24"
+              min={WORK_CONSTANTS.MIN_HOURS_PER_DAY}
+              max={WORK_CONSTANTS.MAX_HOURS_PER_DAY}
+              className={errors.hoursPerDay ? 'error' : ''}
             />
+            {errors.hoursPerDay && (
+              <span className="error-message">{errors.hoursPerDay}</span>
+            )}
           </div>
         </div>
       </div>
 
       {/* 计算结果 */}
-      {results && (
+      {isFormValid && results && (
         <>
           <div className="card">
             <div className="card-header">
@@ -167,7 +185,7 @@ const WageCalculator = () => {
               
               {/* 自定义工作制 */}
               <div className="flex-1">
-                <h4 className="text-primary mb-3">Custom Schedule</h4>
+                <h4 className="text-primary mb-3">{t('workSchedules.custom')}</h4>
                 <div className="result-item">
                   <span className="text-muted">{t('results.hourlyWage')}:</span>
                   <span className="text-primary fw-bold">{formatCurrency(results.custom.hourly)}</span>
@@ -203,7 +221,7 @@ const WageCalculator = () => {
               
               <div className="comparison-item d-flex justify-content-between align-items-center mb-3">
                 <span>{t('comparison.difference')}:</span>
-                <span className="text-danger fw-bold">-{getValueDifference()}%</span>
+                <span className="text-danger fw-bold">-{valueDifference}%</span>
               </div>
             </div>
             
@@ -213,6 +231,16 @@ const WageCalculator = () => {
             </div>
           </div>
         </>
+      )}
+
+      {/* 表单验证提示 */}
+      {!isFormValid && (
+        <div className="card">
+          <div className="alert alert-info">
+            <strong>{t('validation.pleaseComplete')}</strong>
+            <p className="mb-0 mt-2">{t('validation.enterValidValues')}</p>
+          </div>
+        </div>
       )}
     </div>
   );

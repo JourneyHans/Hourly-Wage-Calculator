@@ -36,5 +36,15 @@
   "footer": {
     "description": "本计算器帮助您了解加班工作的真实成本，鼓励健康的工作生活平衡。",
     "disclaimer": "计算结果仅供参考，用于教育目的。"
+  },
+  "validation": {
+    "pleaseComplete": "请完成所有必填字段",
+    "enterValidValues": "请输入有效值",
+    "salaryRequired": "月薪为必填项",
+    "daysRequired": "每周工作天数为必填项",
+    "hoursRequired": "每天工作小时数为必填项",
+    "salaryPositive": "薪资必须为正数",
+    "daysRange": "工作天数必须在1到7之间",
+    "hoursRange": "工作小时数必须在1到24之间"
   }
 }
