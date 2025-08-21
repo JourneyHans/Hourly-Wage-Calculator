@@ -51,6 +51,19 @@ module.exports = {
     // 可访问性规则
     'jsx-a11y/alt-text': 'warn',
     'jsx-a11y/anchor-is-valid': 'warn',
+    
+    // 禁止硬编码文本规则 - 使用正则表达式检测
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector: 'Literal[value=/[\u4e00-\u9fa5]/]',
+        message: '禁止硬编码中文文本，请使用国际化函数 t() 调用',
+      },
+      {
+        selector: 'Literal[value=/\\b[a-zA-Z]{3,}\\b/]',
+        message: '禁止硬编码英文文本，请使用国际化函数 t() 调用',
+      },
+    ],
   },
   settings: {
     react: {
