@@ -20,6 +20,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
+    lng: 'en', // 设置默认语言为英语
     debug: false,
     interpolation: {
       escapeValue: false,
