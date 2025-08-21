@@ -1,0 +1,40 @@
+{
+  "app": {
+    "title": "Hourly Wage Calculator",
+    "subtitle": "Calculate your real hourly wage under different work schedules"
+  },
+  "language": {
+    "en": "English",
+    "zh": "中文"
+  },
+  "input": {
+    "monthlySalary": "Monthly Salary (¥)",
+    "workDaysPerWeek": "Work Days per Week",
+    "hoursPerDay": "Hours per Day",
+    "calculate": "Calculate"
+  },
+  "results": {
+    "title": "Calculation Results",
+    "hourlyWage": "Hourly Wage",
+    "dailyWage": "Daily Wage",
+    "weeklyWage": "Weekly Wage",
+    "monthlyWage": "Monthly Wage"
+  },
+  "workSchedules": {
+    "standard": "Standard Work Schedule (8h/day, 5 days/week)",
+    "overtime": "Overtime Work Schedule (12h/day, 6 days/week)",
+    "nineNineSix": "996 Work Schedule (12h/day, 6 days/week)"
+  },
+  "comparison": {
+    "title": "Value Comparison",
+    "standard": "Standard Schedule",
+    "nineNineSix": "996 Schedule",
+    "difference": "Value Difference",
+    "warning": "Warning: 996 work schedule significantly reduces your hourly value!",
+    "recommendation": "Consider the true cost of overtime work on your life and health."
+  },
+  "footer": {
+    "description": "This calculator helps you understand the real cost of overtime work and encourages healthy work-life balance.",
+    "disclaimer": "The results are for educational purposes only."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "app": {
+    "title": "时薪计算器",
+    "subtitle": "计算不同工作制度下的真实时薪"
+  },
+  "language": {
+    "en": "English",
+    "zh": "中文"
+  },
+  "input": {
+    "monthlySalary": "月薪 (¥)",
+    "workDaysPerWeek": "每周工作天数",
+    "hoursPerDay": "每天工作小时数",
+    "calculate": "计算"
+  },
+  "results": {
+    "title": "计算结果",
+    "hourlyWage": "时薪",
+    "dailyWage": "日薪",
+    "weeklyWage": "周薪",
+    "monthlyWage": "月薪"
+  },
+  "workSchedules": {
+    "standard": "标准工作制 (每天8小时，每周5天)",
+    "overtime": "加班工作制 (每天12小时，每周6天)",
+    "nineNineSix": "996工作制 (每天12小时，每周6天)"
+  },
+  "comparison": {
+    "title": "价值对比",
+    "standard": "标准工作制",
+    "nineNineSix": "996工作制",
+    "difference": "价值差异",
+    "warning": "警告：996工作制度显著降低了您的时薪价值！",
+    "recommendation": "请考虑加班工作对生活和健康的真实成本。"
+  },
+  "footer": {
+    "description": "本计算器帮助您了解加班工作的真实成本，鼓励健康的工作生活平衡。",
+    "disclaimer": "计算结果仅供参考，用于教育目的。"
+  }
+}
