@@ -23,7 +23,8 @@
   "workSchedules": {
     "standard": "标准工作制 (每天8小时，每周5天)",
     "overtime": "加班工作制 (每天12小时，每周6天)",
-    "nineNineSix": "996工作制 (每天12小时，每周6天)"
+    "nineNineSix": "996工作制 (每天12小时，每周6天)",
+    "custom": "自定义工作制"
   },
   "comparison": {
     "title": "价值对比",

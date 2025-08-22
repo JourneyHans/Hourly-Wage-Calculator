@@ -23,7 +23,8 @@
   "workSchedules": {
     "standard": "Standard Work Schedule (8h/day, 5 days/week)",
     "overtime": "Overtime Work Schedule (12h/day, 6 days/week)",
-    "nineNineSix": "996 Work Schedule (12h/day, 6 days/week)"
+    "nineNineSix": "996 Work Schedule (12h/day, 6 days/week)",
+    "custom": "Custom Work Schedule"
   },
   "comparison": {
     "title": "Value Comparison",
